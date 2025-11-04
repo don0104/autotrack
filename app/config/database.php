@@ -57,17 +57,32 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 |   Example: $database['another_example'] = array('key' => 'value')
 */
 
+// Read DB connection values from environment when available (recommended for production)
+$db_host = getenv('DB_HOST') !== false ? getenv('DB_HOST') : 'localhost';
+$db_port = getenv('DB_PORT') !== false ? getenv('DB_PORT') : '3306';
+$db_user = getenv('DB_USERNAME') !== false ? getenv('DB_USERNAME') : 'root';
+$db_pass = getenv('DB_PASSWORD') !== false ? getenv('DB_PASSWORD') : '';
+$db_name = getenv('DB_DATABASE') !== false ? getenv('DB_DATABASE') : 'car_rentaldb';
+$db_charset = getenv('DB_CHARSET') !== false ? getenv('DB_CHARSET') : 'utf8mb4';
+
+// Optional: path to SSL CA file for TLS connections (Aiven provides this). If set, Database class will use it.
+$db_ssl_ca = getenv('DB_SSL_CA') !== false ? getenv('DB_SSL_CA') : '';
+$db_ssl_verify = getenv('DB_SSL_VERIFY') !== false ? (strtolower(getenv('DB_SSL_VERIFY')) !== 'false' && getenv('DB_SSL_VERIFY') !== '0') : true;
+
 $database['main'] = array(
-    'driver'	=> 'mysql',
-    'hostname'	=> 'localhost',
-    'port'		=> '3306',
-    'username'	=> 'root',
-    'password'	=> '',
-    'database'	=> 'car_rentaldb',
-    'charset'	=> 'utf8mb4',
-    'dbprefix'	=> '',
+    'driver'    => 'mysql',
+    'hostname'  => $db_host,
+    'port'      => $db_port,
+    'username'  => $db_user,
+    'password'  => $db_pass,
+    'database'  => $db_name,
+    'charset'   => $db_charset,
+    'dbprefix'  => '',
     // Optional for SQLite
-    'path'      => ''
+    'path'      => '',
+    // Optional TLS/SSL settings (file path to CA and whether to verify server cert)
+    'ssl_ca'    => $db_ssl_ca,
+    'ssl_verify'=> $db_ssl_verify,
 );
 
 ?>

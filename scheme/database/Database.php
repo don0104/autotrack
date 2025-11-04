@@ -238,6 +238,27 @@ class Database {
             PDO::ATTR_EMULATE_PREPARES   => false,
         );
 
+        // If the configuration provided an SSL CA for MySQL (e.g. Aiven), include it in PDO options.
+        // The config file can set 'ssl_ca' to a filepath and 'ssl_verify' to true/false.
+        if ($driver === 'mysql') {
+            if (!empty($database_config['ssl_ca'])) {
+                // If the path exists, use it. Aiven provides a CA file you can store on disk and reference via env.
+                if (file_exists($database_config['ssl_ca'])) {
+                    $options[PDO::MYSQL_ATTR_SSL_CA] = $database_config['ssl_ca'];
+                } else {
+                    // If not a file path, still attempt to set it (some setups may provide a path-like string)
+                    $options[PDO::MYSQL_ATTR_SSL_CA] = $database_config['ssl_ca'];
+                }
+            }
+
+            // Optionally disable server cert verification if 'ssl_verify' is explicitly set to false.
+            if (isset($database_config['ssl_verify']) && $database_config['ssl_verify'] === false) {
+                if (defined('PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT')) {
+                    $options[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = false;
+                }
+            }
+        }
+
         try {
             $this->db = new PDO($dsn, $username, $password, $options);
              $this->driver = $this->db->getAttribute(PDO::ATTR_DRIVER_NAME);
