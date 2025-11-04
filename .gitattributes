@@ -1,0 +1,27 @@
+# Normalize line endings across platforms
+* text=auto
+
+# Force LF in repository for common text files (helps CI and Linux hosts)
+*.php text eol=lf
+*.inc text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+*.js text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.xml text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+
+# Binary files — keep as-is
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.eot binary
+*.ttf binary
+*.woff binary
+*.woff2 binary
+
+# Do not treat vendor files as text to avoid line-ending warnings (but vendor should ideally be ignored)
+vendor/** -text
