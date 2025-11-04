@@ -1,12 +1,16 @@
 AddDefaultCharset UTF-8
+
+# Ensure index.php is served as the directory index
+DirectoryIndex index.php index.html
 <IfModule mod_rewrite.c>
     RewriteEngine On
     
-    # Set the base directory for rewrites
-    RewriteBase /web2/final_project/car_rental/
-    
-    # Deny access to sensitive directories
-    RedirectMatch 403 ^/web2/final_project/car_rental/(app|scheme|console|runtime)/
+    # Set the base directory for rewrites. Use root (/) for most hosting platforms.
+    # On local setups adjust as needed (for example /web2/final_project/car_rental/).
+    RewriteBase /
+
+    # Deny access to sensitive directories (relative to web root)
+    RedirectMatch 403 ^/(app|scheme|console|runtime)/
     
     # Deny access to sensitive files
     <FilesMatch "\.(env|json|xml|log|md|lock|git|ini|bak|sql)$">
