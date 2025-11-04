@@ -1,0 +1,26 @@
+AddDefaultCharset UTF-8
+
+# Ensure index.php is served as the directory index
+DirectoryIndex index.php index.html
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Deny access to sensitive directories (relative to web root)
+    RedirectMatch 403 ^/(app|scheme|console|runtime)/
+
+    # Deny access to sensitive files
+    <FilesMatch "\.(env|json|xml|log|md|lock|git|ini|bak|sql)$">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+
+    AcceptPathInfo On
+
+    # Rewrite all requests to index.php
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.php [L,QSA]
+
+    Options -Indexes
+</IfModule>
