@@ -58,11 +58,11 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 */
 
 // Read DB connection values from environment when available (recommended for production)
-$db_host = getenv('DB_HOST') !== false ? getenv('DB_HOST') : '';
-$db_port = getenv('DB_PORT') !== false ? getenv('DB_PORT') : '';
-$db_user = getenv('DB_USERNAME') !== false ? getenv('DB_USERNAME') : '';
+$db_host = getenv('DB_HOST') !== false ? getenv('DB_HOST') : 'localhost';
+$db_port = getenv('DB_PORT') !== false ? getenv('DB_PORT') : '3306';
+$db_user = getenv('DB_USERNAME') !== false ? getenv('DB_USERNAME') : 'root';
 $db_pass = getenv('DB_PASSWORD') !== false ? getenv('DB_PASSWORD') : '';
-$db_name = getenv('DB_DATABASE') !== false ? getenv('DB_DATABASE') : '';
+$db_name = getenv('DB_DATABASE') !== false ? getenv('DB_DATABASE') : 'car_rentaldb';
 $db_charset = getenv('DB_CHARSET') !== false ? getenv('DB_CHARSET') : 'utf8mb4';
 
 // Optional: path to SSL CA file for TLS connections (Aiven provides this). If set, Database class will use it.
