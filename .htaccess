@@ -18,10 +18,13 @@ DirectoryIndex index.php index.html
         Deny from all
     </FilesMatch>
     
-    # Rewrite all requests to index.php
+    # Ensure PATH_INFO is accepted by PHP so frameworks that rely on it work
+    AcceptPathInfo On
+
+    # Rewrite all requests to index.php (pass the original URI via REQUEST_URI)
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ index.php/$1 [L,QSA]
+    RewriteRule ^ index.php [L,QSA]
     
     # Prevent directory browsing
     Options -Indexes
