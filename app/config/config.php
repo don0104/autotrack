@@ -128,9 +128,8 @@ $config['log_dir']                  = 'runtime/logs/';
 | Note: This will NOT disable or override the LavaLust-specific
 |	autoloading (app/config/autoload.php)
 */
-// If your Composer vendor directory is at the project root (common on hosts like Render),
-// point directly to that autoload.php. Otherwise you can set this to TRUE to use app/vendor.
-$config['composer_autoload']        = ROOT_DIR . 'vendor/autoload.php';
+// Use default Composer autoloader and let LavaLust core check both app/vendor and root vendor.
+$config['composer_autoload']        = TRUE; // app/vendor/autoload.php (fallback to root/vendor via core)
 
 /*
 |--------------------------------------------------------------------------
